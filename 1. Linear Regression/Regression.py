@@ -30,8 +30,8 @@ def predict(x):
     numerator = sum((d["AverageDurationOfStay"] - mean_avg_duration) * (d["Departures"] - mean_departures) for d in training_data)
     denominator = sum((d["AverageDurationOfStay"] - mean_avg_duration) ** 2 for d in training_data)
     m = numerator / denominator
-    b = mean_departures - m * mean_avg_duration
-    return m * x + b
+    c = mean_departures - m * mean_avg_duration
+    return m * x + c
 
 predicted_departures = [predict(d["AverageDurationOfStay"]) for d in training_data]
 
@@ -41,11 +41,10 @@ plt.xlabel('Average Duration of Stay')
 plt.ylabel('Departures')
 plt.title('Linear Regression Model')
 plt.legend()
-
-# Predicting and marking the y-intercept
+plt.show()
 predicted_y_intercept = predict(112)
 print(predicted_y_intercept)
+plt.plot([d["AverageDurationOfStay"] for d in training_data], predicted_departures, color='green', label='Linear Regression Line')
 plt.axhline(y=predicted_y_intercept, color='black', linestyle='--', label=f'Predicted Y-Intercept: {predicted_y_intercept:.2f}')
 plt.legend()
-
 plt.show()
